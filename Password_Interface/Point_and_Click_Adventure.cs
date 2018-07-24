@@ -11,7 +11,7 @@ namespace Password_Interface
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Greetings traveler! Let's get to know you a little bit.\nWhat is your name?");
+            Console.WriteLine("Greetings traveller! Let's get to know you a little bit.\nWhat is your name?");
             string charName = Console.ReadLine();
             int raceNumber = 0;
             Console.WriteLine($"Hello {charName}!");
@@ -29,11 +29,12 @@ namespace Password_Interface
                 Trait(ref raceNumber, charName);
                 string race = Race(ref raceNumber);
                 Console.WriteLine($"So {charName}, it looks like you are a {race}.");
+                string pattern = "{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}";
 
                 StatsEdit(ref raceNumber, ref healthMax, ref health, ref arcane, ref charisma, ref strength, ref intelegence, ref luck);
-                Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}", "Health", "Arcane", "Charisma", "Strength", "Intelegence", "Luck");
-                Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}", "======", "======", "========", "========", "===========", "====");
-                Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}", healthMax, arcane, charisma, strength, intelegence, luck);
+                Console.WriteLine(pattern, "Health", "Arcane", "Charisma", "Strength", "Intelegence", "Luck");
+                Console.WriteLine(pattern, "======", "======", "========", "========", "===========", "====");
+                Console.WriteLine(pattern, healthMax, arcane, charisma, strength, intelegence, luck);
                 ReRoll(ref i);
             } while (i == false);
 
