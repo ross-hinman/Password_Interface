@@ -11,11 +11,12 @@ namespace Password_Interface
     {
         static void Main(string[] args)
         {            
-            Console.WriteLine("Greetings traveller! Let's get to know you a little bit.\nWhat is your name?");
+            Console.WriteLine("Greetings, traveller! Let's get to know you a little bit.\nWhat is your name?");
             string charName = Console.ReadLine();
             int raceNumber = 0;
             Console.WriteLine($"Hello {charName}!");
             bool i = true;
+            //Stats List
             int healthMax = 20;
             int health = 20;
             int arcane = 10;
@@ -23,6 +24,8 @@ namespace Password_Interface
             int strength = 10;
             int intelegence = 10;
             int luck = 10;
+            int sneak = 10;
+
             string cypher = RandomCypherNumber();
 
             do
@@ -30,21 +33,22 @@ namespace Password_Interface
                 Trait(ref raceNumber, charName);
                 string race = Race(ref raceNumber);
                 Console.WriteLine($"So {charName}, it looks like you are a {race}.");
-                string pattern = "{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}";
+                string pattern = "{0,-7}{1,-7}{2,-9}{3,-9}{4,-12}{5,-5}{6,-6}";
 
-                StatsEdit(ref raceNumber, ref healthMax, ref health, ref arcane, ref charisma, ref strength, ref intelegence, ref luck);
-                Console.WriteLine(pattern, "Health", "Arcane", "Charisma", "Strength", "Intelegence", "Luck");
-                Console.WriteLine(pattern, "======", "======", "========", "========", "===========", "====");
-                Console.WriteLine(pattern, healthMax, arcane, charisma, strength, intelegence, luck);
+                StatsEdit(ref raceNumber, ref healthMax, ref health, ref arcane, ref charisma, ref strength, ref intelegence, ref luck, ref sneak);
+                Console.WriteLine(pattern, "Health", "Arcane", "Charisma", "Strength", "Intelegence", "Luck", "Sneak");
+                Console.WriteLine(pattern, "======", "======", "========", "========", "===========", "====", "=====");
+                Console.WriteLine(pattern, healthMax, arcane, charisma, strength, intelegence, luck, sneak);
                 ReRoll(ref i);
             } while (i == false);
 
-
+            Console.Clear();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             Console.WriteLine("Your story begins...");
             Console.WriteLine();
             string choice1 = Tavern();
+            Console.Clear();
             if (choice1 == "1")
             {
                 Mill();
@@ -52,10 +56,29 @@ namespace Password_Interface
             }
             if (choice1 == "2")
             {
-                Chat();
-                LockPick(intelegence, cypher);
-                Loot();
-                Console.ReadKey();
+                int tavernChoice = Chat();
+                if (tavernChoice == 1)
+                {
+                    ShadyMen();
+                }
+                else if (tavernChoice == 2)
+                {
+                    int storeRoomChoice = StoreRoom();
+                    if (storeRoomChoice == 1)
+                    {
+                        int success = 1;
+                        StoreRoomLock(intelegence, cypher, success);
+                        Console.WriteLine(success);
+                    }
+                    else if (storeRoomChoice == 2)
+                    {
+
+                    }
+                }
+                else if (tavernChoice == 3)
+                {
+                    TavernOwner();
+                }
             }
         }
 
@@ -117,7 +140,7 @@ namespace Password_Interface
             }
         }
 
-        public static void StatsEdit(ref int raceNumber, ref int healthMax, ref int health, ref int arcane, ref int charisma, ref int strength, ref int intelegence, ref int luck)
+        public static void StatsEdit(ref int raceNumber, ref int healthMax, ref int health, ref int arcane, ref int charisma, ref int strength, ref int intelegence, ref int luck, ref int sneak)
         {
             if (raceNumber == 1)
             {
@@ -128,6 +151,7 @@ namespace Password_Interface
                 strength = 12;
                 intelegence = 4;
                 luck = 10;
+                sneak = 4;
             }
             if (raceNumber == 2)
             {
@@ -138,6 +162,7 @@ namespace Password_Interface
                 strength = 6;
                 intelegence = 12;
                 luck = 6;
+                sneak = 8;
             }
             if (raceNumber == 3)
             {
@@ -148,6 +173,7 @@ namespace Password_Interface
                 strength = 8;
                 intelegence = 6;
                 luck = 5;
+                sneak = 8;
             }
             if (raceNumber == 4)
             {
@@ -158,6 +184,7 @@ namespace Password_Interface
                 strength = 7;
                 intelegence = 6;
                 luck = 7;
+                sneak = 6;
             }
 
         }
@@ -207,10 +234,13 @@ namespace Password_Interface
             Console.WriteLine("You head for the mill right away.");
         }
 
-        public static void Chat()
+        public static int Chat()
         {
             Console.WriteLine("You stay in the tavern for a little longer, seeing if anyone else has information to give you.");
-            Console.WriteLine("There is a door behind the bar that looks like has quite the booty-smacker behind it.\nYou attempt to pick the lock.");
+            Console.WriteLine("As you survey the room, you see a group of men sitting by themselves\n and speaking quietly so no one around them can hear.\nNear the back of the room there is an open door leading to the back storeroom.\nBehind the counter the owner of the tavern washes dishes as he softly mumbles a song to himself.");
+            Console.WriteLine("What do you choose to do?\n1: Talk to the men.\n2: Investigate the storeroom.\n3: Talk to the owner.");
+            int tavernChoice = Convert.ToInt16(Console.ReadLine());
+            return tavernChoice;
         }
 
         public static void LockPick(int intelegence, string cypher)
@@ -260,10 +290,62 @@ namespace Password_Interface
             return cypher;
         }
 
-        public static void Loot()
+        public static void ShadyMen()
         {
-            Console.WriteLine("You manage to carefully turn the lock without anyone noticing you.\nInside the back room you find some magic cards.\nCongratulation! You win.");
+
         }
+
+        public static int StoreRoom()
+        {
+            Console.Clear();
+            Console.WriteLine("You make your way towards the back of the tavern,\nusing the large crowd to your advantage in an attempt to not be seen.");
+            Console.WriteLine("No one notices you slip through the half-open door.\nYou find yourself in a relatively empty room.\nThere are barrels full of food and mead along one wall\nand a locked door on the opposite wall.");
+            Console.WriteLine("WHat do you do?\n1: Try to pick the lock on the door.\n2: Go back out of the room.");
+            int storeRoomChoice = Convert.ToInt32(Console.ReadLine());
+            return storeRoomChoice;
+        }
+
+        public static void StoreRoomLock(int intelegence, string cypher, int success)
+        {
+            var pattern = cypher;
+            
+            int i = 0;
+            int guesses = intelegence - i;
+            Console.WriteLine($"You have {guesses} attempts to pick the storeroom lock. You must guess the correct pattern of 0 and 1's.\n(XXX)");
+            for (int j = 0; j <= intelegence; ++j)
+            {
+                string guess = Console.ReadLine();
+                int remainingGuesses = intelegence - j;
+                if (Regex.IsMatch(guess, pattern))
+                {
+                    Console.WriteLine($"You successfully picked the lock in {j + 1} attempts!");
+                    success = 1;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"That was not the correct combination. You have {intelegence - (j + 1)} guesses left.");
+                    
+                }
+                if (j >= intelegence - 1)
+                {
+                    Console.WriteLine("Just as the lock began to turn, your broke your lockpick.");
+                    success = 2;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
+        public static void TavernOwner()
+        {
+
+        }
+
+
     }
 }
     
