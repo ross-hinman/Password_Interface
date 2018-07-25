@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Password_Interface
 {
     class Program
     {
-
         static void Main(string[] args)
-        {
+        {            
             Console.WriteLine("Greetings traveller! Let's get to know you a little bit.\nWhat is your name?");
             string charName = Console.ReadLine();
             int raceNumber = 0;
@@ -23,6 +23,7 @@ namespace Password_Interface
             int strength = 10;
             int intelegence = 10;
             int luck = 10;
+            string cypher = RandomCypherNumber();
 
             do
             {
@@ -38,23 +39,29 @@ namespace Password_Interface
                 ReRoll(ref i);
             } while (i == false);
 
+
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             Console.WriteLine("Your story begins...");
+            Console.WriteLine();
             string choice1 = Tavern();
             if (choice1 == "1")
             {
                 Mill();
+                Console.ReadKey();
             }
             if (choice1 == "2")
             {
                 Chat();
+                LockPick(intelegence, cypher);
+                Loot();
+                Console.ReadKey();
             }
         }
 
         public static void Trait(ref int raceNumber, string charName)
         {
-            
+
             bool repeat = true;
 
             while (repeat == true)
@@ -203,6 +210,59 @@ namespace Password_Interface
         public static void Chat()
         {
             Console.WriteLine("You stay in the tavern for a little longer, seeing if anyone else has information to give you.");
+            Console.WriteLine("There is a door behind the bar that looks like has quite the booty-smacker behind it.\nYou attempt to pick the lock.");
+        }
+
+        public static void LockPick(int intelegence, string cypher)
+        {
+            var pattern = cypher;
+            int i = 0;
+            int guesses = intelegence - i;
+            Console.WriteLine($"You have {guesses} attempts to pick the lock. You must guess the correct pattern of 0 and 1's.\n(XXX)");
+            for (int j = 0; j <= intelegence; ++j)
+            {
+                string guess = Console.ReadLine();
+                int remainingGuesses = intelegence - j;
+                if (Regex.IsMatch(guess, pattern))
+                {
+                    Console.WriteLine($"You successfully picked the lock in {j+1} attempts!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"That was not the correct combination. You have {intelegence-(j+1)} guesses left.");
+                }
+                if (j >= intelegence-1)
+                {
+                    Console.WriteLine("Just as the lock began to turn, your broke your lockpick.");
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        
+        public static string RandomCypherNumber()
+        {
+
+            int[] lockCode = new int[3];
+            int min = 0;
+            int max = 2;
+            Random randomNumber = new Random();
+            for (int i = 0; i < lockCode.Length; i++)
+            {
+                int x = randomNumber.Next(min, max);
+                lockCode[i] = x;
+            }
+            string cypher = string.Join("", lockCode);
+            return cypher;
+        }
+
+        public static void Loot()
+        {
+            Console.WriteLine("You manage to carefully turn the lock without anyone noticing you.\nInside the back room you find some magic cards.\nCongratulation! You win.");
         }
     }
 }
