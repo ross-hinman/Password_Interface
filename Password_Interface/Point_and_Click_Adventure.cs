@@ -68,7 +68,10 @@ namespace Password_Interface
                     {
                         int success = 1;
                         StoreRoomLock(intelegence, cypher, success);
-                        Console.WriteLine(success);
+                        if (success == 1)
+                        {
+                            Console.WriteLine("Congratulations! You got as far as I've been able to code.\nStay tunned for the full release of this game\n\"SkyRimmed\" the low price of $60!");
+                        }
                     }
                     else if (storeRoomChoice == 2)
                     {
